@@ -13,14 +13,8 @@
 - **Historial de cálculos**: Almacenamiento local de resultados anteriores
 - **Interfaz moderna**: Diseño responsive con Angular Material
 - **Arquitectura modular**: Código organizado en features y componentes reutilizables
+- **Angular 20**: Control Flow Blocks (@if, @for) y Signals modernos
 
-## 🛠️ Tecnologías Utilizadas.
-
-- **Frontend**: Angular 20, TypeScript
-- **UI Framework**: Angular Material
-- **Estilos**: SCSS con variables y mixins
-- **Algoritmos**: Método Monte Carlo para cálculo de áreas
-- **Almacenamiento**: LocalStorage para historial
 
 ## 📁 Estructura del Proyecto
 
@@ -35,7 +29,6 @@ stain-area-calculator/
 │   │   ├── core/
 │   │   │   ├── constants/
 │   │   │   ├── interfaces/
-│   │   │   ├── material/
 │   │   │   ├── models/
 │   │   │   └── services/
 │   │   ├── features/
@@ -52,8 +45,6 @@ stain-area-calculator/
 ├── public/
 └── ...otros archivos de configuración
 ```
-
-
 
 ## Requisitos
 
@@ -76,14 +67,49 @@ stain-area-calculator/
 
 ## 🚀 Ejecución
 
-### Opción 1: Usando npm start (Recomendado)
+### Opción 1: Usando ng serve -o (Recomendado)
+```bash
+ng serve -o
+```
+
+### Opción 2: Usando npx (si no tienes Angular CLI global)
+```bash
+npx ng serve -o
+```
+
+### Opción 3: Usando npm start
 ```bash
 npm start
 ```
 
-### Opción 2: Usando Angular CLI
-```bash
-ng serve
-```
+La aplicación se abrirá automáticamente en tu navegador en `http://localhost:4200`.
+
+## 🎯 Uso
+
+1. **Cargar imagen**: Haz clic en "Seleccionar imagen" y elige una imagen binaria
+2. **Ajustar precisión**: Usa el slider para establecer el número de puntos de muestreo
+3. **Calcular área**: Haz clic en "Calcular área" para ejecutar el método Monte Carlo
+4. **Ver resultados**: Los resultados se mostrarán con el área calculada y estadísticas
+5. **Revisar historial**: Ve a la pestaña "Historial" para ver cálculos anteriores
+
+## 🔧 Desarrollo
+
+### Estructura de Componentes
+- **Calculator**: Componente principal para el cálculo de áreas
+- **FileUpload**: Componente reutilizable para carga de archivos
+- **PointsSlider**: Componente para ajustar la precisión del cálculo
+- **History**: Componente para mostrar el historial de cálculos
+
+### Servicios Principales
+- **AreaCalculationService**: Implementa el algoritmo Monte Carlo
+- **ImageProcessingService**: Maneja el procesamiento de imágenes
+- **StorageService**: Gestiona el almacenamiento local de datos
+
+## 📊 Método Monte Carlo
+
+El cálculo de áreas utiliza el método Monte Carlo:
+1. Se generan puntos aleatorios sobre la imagen
+2. Se cuenta cuántos puntos caen dentro de la mancha
+3. Se calcula el área como: `(puntos_en_mancha / total_puntos) * área_total`
 
 
