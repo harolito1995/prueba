@@ -1,0 +1,28 @@
+# Ignorar archivos y carpetas generados automáticamente
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Entornos virtuales
+venv/
+env/
+
+# Archivos de logs y reportes
+logs/
+reports/
+
+# Archivos de datos generados o de ejemplo
+*.png
+*.jpg
+*.jpeg
+*.dcm
+*.csv
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración de IDE
+.vscode/
+.idea/ 
