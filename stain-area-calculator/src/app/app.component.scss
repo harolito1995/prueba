@@ -1,0 +1,480 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+/* Estilos del componente raíz con navbar mejorado */ 
+
+.app-container {
+  min-height: 100vh;
+  background: $bg-secondary;
+  width: 100%;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+// Navbar mejorado
+.app-navbar {
+  @include gradient-primary;
+  color: $text-light;
+  box-shadow: $shadow-lg;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  
+  .navbar-container {
+    @include flex-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 $spacing-lg;
+    width: 100%;
+    height: 64px;
+  }
+  
+  // Botón de menú
+  .menu-button {
+    display: none; // Oculto en desktop
+    color: $text-light;
+    
+    @include responsive(md) {
+      display: block;
+    }
+  }
+  
+  // Logo y marca
+  .navbar-brand {
+    @include flex-center;
+    gap: $spacing-sm;
+    
+    .brand-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+      color: $text-light;
+    }
+    
+    .brand-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: $text-light;
+      letter-spacing: 0.5px;
+    }
+  }
+  
+  // Navegación principal
+  .navbar-nav {
+    @include flex-center;
+    gap: $spacing-sm;
+    
+    @include responsive(md) {
+      display: none; // Oculto en móvil
+    }
+    
+    .nav-link {
+      @include flex-center;
+      gap: $spacing-xs;
+      color: $text-light;
+      text-decoration: none;
+      padding: $spacing-sm $spacing-md;
+      border-radius: $border-radius-md;
+      transition: all $transition-fast;
+      font-weight: 500;
+      
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+      
+      &:hover {
+        background: rgba($text-light, 0.1);
+        transform: translateY(-1px);
+      }
+      
+      &.active {
+        background: rgba($text-light, 0.2);
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+  
+  // Acciones del navbar
+  .navbar-actions {
+    @include flex-center;
+    gap: $spacing-xs;
+    
+    .action-button {
+      color: $text-light;
+      transition: all $transition-fast;
+      
+      &:hover {
+        background: rgba($text-light, 0.1);
+        transform: scale(1.1);
+      }
+      
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}
+
+// Sidenav container
+.sidenav-container {
+  flex: 1;
+  height: calc(100vh - 64px);
+}
+
+// Sidenav
+.app-sidenav {
+  width: 280px;
+  background: $bg-primary;
+  border-right: 1px solid $border-light;
+  
+  // Header del sidenav
+  .sidenav-header {
+    @include flex-center;
+    flex-direction: column;
+    padding: $spacing-xl $spacing-lg;
+    background: $primary-color;
+    color: $text-light;
+    text-align: center;
+    
+    .sidenav-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      margin-bottom: $spacing-md;
+      color: $text-light;
+    }
+    
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      color: $text-light;
+    }
+  }
+  
+  // Navegación del sidenav
+  .sidenav-nav {
+    padding: $spacing-md 0;
+    
+    .sidenav-item {
+      margin: $spacing-xs $spacing-md;
+      border-radius: $border-radius-md;
+      transition: all $transition-fast;
+      display: flex;
+      align-items: center;
+      padding: $spacing-md;
+      text-decoration: none;
+      color: $text-primary;
+      
+      &:hover {
+        background: rgba($primary-color, 0.1);
+      }
+      
+      &.active {
+        background: rgba($primary-color, 0.2);
+        color: $primary-color;
+        
+        .sidenav-item-icon {
+          color: $primary-color;
+        }
+      }
+      
+      .sidenav-item-icon {
+        color: $text-secondary;
+        margin-right: $spacing-md;
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+      
+      .sidenav-item-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        
+        .sidenav-item-title {
+          font-weight: 500;
+          color: inherit;
+          font-size: 14px;
+          margin-bottom: 2px;
+        }
+        
+        .sidenav-item-subtitle {
+          color: $text-secondary;
+          font-size: 12px;
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+  
+  // Secciones del sidenav
+  .sidenav-info,
+  .sidenav-settings {
+    padding: $spacing-md 0;
+    
+    h3 {
+      padding: 0 $spacing-lg;
+      margin: $spacing-md 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: $text-secondary;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .mat-mdc-list-item {
+      margin: $spacing-xs $spacing-md;
+      border-radius: $border-radius-md;
+      transition: all $transition-fast;
+      
+      &:hover {
+        background: rgba($primary-color, 0.1);
+      }
+      
+      .mat-icon {
+        color: $text-secondary;
+        margin-right: $spacing-sm;
+      }
+      
+      .mat-mdc-list-item-title {
+        font-weight: 500;
+        color: $text-primary;
+      }
+    }
+  }
+  
+  // Divider
+  .mat-divider {
+    margin: $spacing-md 0;
+    border-color: $border-light;
+  }
+}
+
+// Contenido del sidenav
+.sidenav-content {
+  background: $bg-secondary;
+}
+
+// Contenido principal
+.app-content {
+  flex: 1;
+  padding: $spacing-lg;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+// Footer mejorado
+.app-footer {
+  background: $bg-dark;
+  color: $text-light;
+  margin-top: auto;
+  
+  .footer-container {
+    @include flex-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 $spacing-lg;
+    width: 100%;
+    height: 56px;
+  }
+  
+  .footer-info {
+    .footer-text {
+      @include flex-center;
+      gap: $spacing-sm;
+      font-size: 14px;
+      opacity: 0.8;
+      
+      .footer-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        color: $text-light;
+      }
+    }
+  }
+  
+  .footer-actions {
+    @include flex-center;
+    gap: $spacing-xs;
+    
+    .footer-button {
+      color: $text-light;
+      opacity: 0.7;
+      transition: all $transition-fast;
+      
+      &:hover {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+      
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
+
+// Responsive design para el navbar
+@include responsive(md) {
+  .app-navbar {
+    .navbar-container {
+      padding: 0 $spacing-md;
+      height: 56px;
+    }
+    
+    .navbar-brand {
+      .brand-icon {
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
+      }
+      
+      .brand-title {
+        font-size: 18px;
+      }
+    }
+    
+    .navbar-actions {
+      .action-button {
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+  }
+  
+  .sidenav-container {
+    height: calc(100vh - 56px);
+  }
+  
+  .app-content {
+    padding: $spacing-md;
+  }
+  
+  .app-footer {
+    .footer-container {
+      padding: 0 $spacing-md;
+      height: 48px;
+    }
+    
+    .footer-info {
+      .footer-text {
+        font-size: 12px;
+        
+        .footer-icon {
+          font-size: 14px;
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+  }
+}
+
+// Estados de carga
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba($bg-primary, 0.9);
+  @include flex-center;
+  z-index: 9999;
+  
+  .loading-content {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-md;
+    
+    mat-spinner {
+      margin-bottom: $spacing-md;
+    }
+    
+    p {
+      color: $text-primary;
+      font-size: 16px;
+      margin: 0;
+    }
+  }
+}
+
+// Custom toolbar styling
+::ng-deep .mat-mdc-toolbar {
+  .mat-mdc-toolbar-row {
+    padding: 0;
+    min-height: 64px;
+  }
+}
+
+// Custom menu styling
+::ng-deep .mat-mdc-menu-panel {
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  
+  .mat-mdc-menu-item {
+    font-size: 14px;
+    font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+    
+    .mat-icon {
+      margin-right: $spacing-sm;
+    }
+  }
+}
+
+// Custom sidenav styling
+::ng-deep .mat-mdc-sidenav {
+  .mat-mdc-sidenav-container {
+    background: $bg-primary;
+  }
+}
+
+// Animaciones para el navbar
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.app-navbar {
+  animation: slideDown 0.3s ease-out;
+}
+
+// Hover effects mejorados
+.nav-link, .action-button, .footer-button {
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+  }
+  
+  &:hover::before {
+    left: 100%;
+  }
+} 

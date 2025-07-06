@@ -1,0 +1,125 @@
+<!-- HTML del componente raíz con navbar mejorado -->
+<div class="app-container">
+  <!-- Navbar mejorado con Angular Material -->
+  <mat-toolbar color="primary" class="app-navbar">
+    <div class="navbar-container">
+      <!-- Botón de menú para sidenav -->
+      <button
+        mat-icon-button
+        (click)="sidenav.toggle()"
+        class="menu-button"
+        matTooltip="Menú">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <!-- Logo y título -->
+      <div class="navbar-brand">
+        <mat-icon class="brand-icon">calculate</mat-icon>
+        <span class="brand-title">Stain Calculator</span>
+      </div>
+
+      <!-- Navegación principal -->
+      <nav class="navbar-nav">
+        <a
+          mat-button
+          routerLink="/calculator"
+          routerLinkActive="active"
+          class="nav-link">
+          <mat-icon>calculate</mat-icon>
+          <span>Calculadora</span>
+        </a>
+        <a
+          mat-button
+          routerLink="/history"
+          routerLinkActive="active"
+          class="nav-link">
+          <mat-icon>history</mat-icon>
+          <span>Historial</span>
+        </a>
+      </nav>
+
+      <!-- Espaciador para centrar la navegación -->
+      <div class="navbar-spacer"></div>
+    </div>
+  </mat-toolbar>
+
+  <!-- Sidenav para navegación móvil -->
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav
+      #sidenav
+      mode="over"
+      class="app-sidenav"
+      [opened]="false">
+
+      <!-- Header del sidenav -->
+      <div class="sidenav-header">
+        <mat-icon class="sidenav-icon">calculate</mat-icon>
+        <h2>Stain Calculator</h2>
+      </div>
+
+      <!-- Navegación del sidenav -->
+      <mat-nav-list class="sidenav-nav">
+        <a
+          mat-list-item
+          routerLink="/calculator"
+          routerLinkActive="active"
+          (click)="sidenav.close()"
+          class="sidenav-item">
+          <mat-icon class="sidenav-item-icon">calculate</mat-icon>
+          <div class="sidenav-item-content">
+            <span class="sidenav-item-title">Calculadora</span>
+            <span class="sidenav-item-subtitle">Análisis de áreas</span>
+          </div>
+        </a>
+
+        <a
+          mat-list-item
+          routerLink="/history"
+          routerLinkActive="active"
+          (click)="sidenav.close()"
+          class="sidenav-item">
+          <mat-icon class="sidenav-item-icon">history</mat-icon>
+          <div class="sidenav-item-content">
+            <span class="sidenav-item-title">Historial</span>
+            <span class="sidenav-item-subtitle">Cálculos guardados</span>
+          </div>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <!-- Contenido principal -->
+    <mat-sidenav-content class="sidenav-content">
+      <main class="app-content">
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <!-- Footer mejorado -->
+  <footer class="app-footer">
+    <mat-toolbar>
+      <div class="footer-container">
+        <div class="footer-info">
+          <span class="footer-text">
+            <mat-icon class="footer-icon">calculate</mat-icon>
+            Calculadora de Área de Manchas - Método Monte Carlo
+          </span>
+        </div>
+        <div class="footer-actions">
+          <button
+            mat-icon-button
+            class="footer-button"
+            matTooltip="GitHub">
+            <mat-icon>code</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            class="footer-button"
+            matTooltip="Documentación">
+            <mat-icon>description</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-toolbar>
+  </footer>
+</div>

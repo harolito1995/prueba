@@ -1,0 +1,43 @@
+<!-- HTML del componente control deslizante de puntos mejorado -->
+<div class="slider-main-container">
+  <div class="slider-row">
+    <label class="slider-label">
+      Número de puntos aleatorios:
+    </label>
+    <mat-chip color="primary" variant="filled" class="points-chip">
+      {{ points() | number }} puntos
+    </mat-chip>
+  </div>
+  <div class="slider-row slider-controls-row">
+    <mat-slider
+      [min]="min"
+      [max]="max"
+      [step]="step"
+      [disabled]="disabled"
+      class="points-slider"
+    >
+      <input
+        matSliderThumb
+        [value]="points() || 1000"
+        (valueChange)="onSliderChange($event)"
+      >
+    </mat-slider>
+    <mat-form-field appearance="outline" class="slider-input-field">
+      <mat-label>Puntos</mat-label>
+      <input
+        matInput
+        type="number"
+        [min]="min"
+        [max]="max"
+        [step]="step"
+        [disabled]="disabled"
+        [value]="points() || 1000"
+        (input)="onInputChange($event)"
+      >
+    </mat-form-field>
+  </div>
+  <div class="slider-info-row">
+    <mat-icon class="info-icon" fontIcon="info"></mat-icon>
+    <span class="info-text">Más puntos = mayor precisión, pero más tiempo de cálculo</span>
+  </div>
+</div>

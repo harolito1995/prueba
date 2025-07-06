@@ -1,0 +1,43 @@
+// Estilos para notificaciones de éxito
+.success-snackbar {
+  background: #5c6bc0;
+  color: white;
+  
+  .mat-simple-snackbar-action {
+    color: white;
+    font-weight: bold;
+  }
+}
+
+// Estilos para notificaciones de error
+.error-snackbar {
+  background: #f44336;
+  color: white;
+  
+  .mat-simple-snackbar-action {
+    color: white;
+    font-weight: bold;
+  }
+}
+
+// Estilos para notificaciones de información
+.info-snackbar {
+  background: #2196f3;
+  color: white;
+  
+  .mat-simple-snackbar-action {
+    color: white;
+    font-weight: bold;
+  }
+}
+
+// Estilos para notificaciones de advertencia
+.warning-snackbar {
+  background: #ff9800;
+  color: white;
+  
+  .mat-simple-snackbar-action {
+    color: white;
+    font-weight: bold;
+  }
+}

@@ -1,0 +1,774 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+/* Estilos del componente historial */ 
+
+.history-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacing-lg;
+}
+
+.history-card {
+  @include card-style;
+  overflow: hidden;
+}
+
+mat-card-header {
+  @include gradient-accent;
+  color: $text-light;
+  padding: $spacing-lg;
+  margin: (-$spacing-md) (-$spacing-md) $spacing-lg (-$spacing-md);
+}
+
+mat-card-title {
+  @include flex-center;
+  gap: $spacing-sm;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+mat-card-subtitle {
+  color: rgba($text-light, 0.9);
+  margin: $spacing-sm 0 0 0;
+  font-size: 16px;
+}
+
+mat-card-content {
+  padding: 0 $spacing-lg $spacing-lg $spacing-lg;
+}
+
+.loading-container {
+  @include flex-center;
+  flex-direction: column;
+  padding: $spacing-xl $spacing-lg;
+  text-align: center;
+  
+  p {
+    margin-top: $spacing-md;
+    color: $text-secondary;
+    font-size: 16px;
+  }
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.empty-state {
+  @include flex-center;
+  flex-direction: column;
+  padding: $spacing-xxl $spacing-lg;
+  text-align: center;
+  
+  .empty-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    color: $text-muted;
+    margin-bottom: $spacing-lg;
+  }
+  
+  h3 {
+    color: $text-primary;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 $spacing-sm 0;
+  }
+  
+  p {
+    color: $text-secondary;
+    font-size: 16px;
+    margin: 0 0 $spacing-lg 0;
+    max-width: 400px;
+  }
+  
+  .new-calculation-button {
+    @include gradient-primary;
+    color: $text-light;
+    font-weight: 600;
+    padding: $spacing-sm $spacing-lg;
+    border-radius: $border-radius-md;
+    
+    mat-icon {
+      margin-right: $spacing-sm;
+    }
+    
+    &:hover {
+      @include button-hover;
+    }
+  }
+}
+
+.calculations-list {
+  .list-header {
+    @include flex-between;
+    margin-bottom: $spacing-lg;
+    padding: $spacing-md;
+    background: $bg-secondary;
+    border-radius: $border-radius-md;
+    border-left: 4px solid $accent-color;
+    
+    h3 {
+      color: $text-primary;
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .new-calculation-button {
+      @include gradient-primary;
+      color: $text-light;
+      font-weight: 600;
+      padding: $spacing-sm $spacing-md;
+      border-radius: $border-radius-sm;
+      
+      mat-icon {
+        margin-right: $spacing-sm;
+      }
+      
+      &:hover {
+        @include button-hover;
+      }
+    }
+  }
+}
+
+.calculations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: $spacing-lg;
+}
+
+.calculation-card {
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-sm;
+  transition: all $transition-normal;
+  border: 1px solid $border-light;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg;
+  }
+  
+  &.recent {
+    border: 2px solid $success-color;
+    box-shadow: 0 4px 15px rgba($success-color, 0.2);
+    
+    mat-card-header {
+      @include gradient-success;
+    }
+  }
+}
+
+mat-card-header {
+  @include gradient-primary;
+  color: $text-light;
+  border-radius: $border-radius-lg $border-radius-lg 0 0;
+  position: relative;
+  
+  mat-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  mat-card-subtitle {
+    color: rgba($text-light, 0.9);
+    margin: 4px 0 0 0;
+    font-size: 14px;
+  }
+  
+  .card-actions {
+    position: absolute;
+    top: $spacing-sm;
+    right: $spacing-sm;
+    
+    button {
+      color: rgba($text-light, 0.8);
+      
+      &:hover {
+        color: $text-light;
+        background: rgba($text-light, 0.1);
+      }
+    }
+  }
+}
+
+mat-card-content {
+  padding: $spacing-md;
+}
+
+.calculation-details {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  
+  .detail-row {
+    @include flex-between;
+    padding: $spacing-sm $spacing-sm;
+    background: $bg-secondary;
+    border-radius: $border-radius-sm;
+    border-left: 3px solid $primary-color;
+    
+    &.highlight {
+      @include gradient-success;
+      border-left-color: $success-color;
+      
+      .label {
+        color: #000000;
+        font-weight: 600;
+      }
+      
+      .value {
+        color: #000000;
+        font-weight: 600;
+      }
+    }
+    
+    .label {
+      color: $text-secondary;
+      font-weight: 500;
+    }
+    
+    .value {
+      color: $text-primary;
+      font-weight: 600;
+    }
+  }
+}
+
+.recent-indicator {
+  @include flex-center;
+  gap: $spacing-sm;
+  margin-top: $spacing-sm;
+  padding: $spacing-sm $spacing-sm;
+  @include gradient-success;
+  border-radius: $border-radius-sm;
+  border: 1px solid $success-color;
+  
+  mat-icon {
+    color: $success-color;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+  
+  span {
+    color: #000000;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+mat-card-actions {
+  padding: $spacing-md $spacing-lg;
+  background: $bg-secondary;
+  margin: 0 (-$spacing-md) (-$spacing-md) (-$spacing-md);
+  border-top: 1px solid $border-light;
+  
+  .calculator-button {
+    color: $primary-color;
+    font-weight: 500;
+    
+    mat-icon {
+      margin-right: $spacing-sm;
+    }
+    
+    &:hover {
+      background: rgba($primary-color, 0.1);
+    }
+  }
+}
+
+// Responsive design
+@include responsive(md) {
+  .history-container {
+    padding: $spacing-sm;
+  }
+  
+  mat-card-title {
+    font-size: 20px;
+  }
+  
+  .calculations-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .list-header {
+    flex-direction: column;
+    gap: $spacing-sm;
+    text-align: center;
+    
+    .new-calculation-button {
+      width: 100%;
+    }
+  }
+  
+  .calculation-details .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+// Animaciones
+.calculation-card {
+  animation: slideIn $transition-normal ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Estados de hover
+.new-calculation-button:hover,
+.calculation-card:hover {
+  transition: all $transition-fast;
+}
+
+// Estilos para notificaciones
+::ng-deep .success-snackbar {
+  background: #5c6bc0;
+  color: white;
+}
+
+::ng-deep .error-snackbar {
+  background: #f44336;
+  color: white;
+}
+
+.history-fullscreen-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.history-card-full {
+  width: 100%;
+  max-width: 900px;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  border-radius: 16px;
+}
+
+.main-content-full {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 32px 16px 16px 16px;
+}
+
+.empty-state-centered {
+  width: 100%;
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-icon {
+  font-size: 64px;
+  color: #bdbdbd;
+  margin-bottom: 16px;
+}
+
+.list-header-full {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.calculations-grid-full {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.calculation-card-full {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(63,81,181,0.08);
+  background: #fff;
+}
+
+.calculation-details {
+  margin-bottom: 12px;
+}
+
+.recent-indicator {
+  margin-top: 8px;
+  color: #000000;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+.success-message, .error-message {
+  margin-top: 16px;
+  text-align: center;
+}
+
+// Header de la aplicación
+.app-header {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 2rem 0;
+  text-align: center;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.app-title {
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin: 0 0 0.5rem 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.app-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 300;
+}
+
+// Contenido principal
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+// Overlay de carga
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-content {
+  text-align: center;
+  color: #333;
+  
+  h3 {
+    margin: 1rem 0 0.5rem 0;
+    font-weight: 500;
+  }
+  
+  p {
+    margin: 0;
+    color: #666;
+  }
+}
+
+// Contenido del historial
+.history-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+// Estado vacío
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.empty-content {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 3rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  max-width: 500px;
+  width: 100%;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  width: 4rem;
+  height: 4rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.empty-content h2 {
+  color: #333;
+  margin: 0 0 1rem 0;
+  font-weight: 500;
+}
+
+.empty-content p {
+  color: #666;
+  margin: 0 0 2rem 0;
+  line-height: 1.6;
+}
+
+.new-calculation-button {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  
+  mat-icon {
+    margin-right: 0.5rem;
+  }
+}
+
+// Sección de cálculos
+.calculations-section {
+  width: 100%;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.header-info h2 {
+  color: #333;
+  margin: 0 0 0.5rem 0;
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+.header-info p {
+  color: #666;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+// Mensajes de error
+.error-message {
+  display: flex;
+  align-items: center;
+  background: #ffebee;
+  color: #c62828;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #c62828;
+  
+  mat-icon {
+    margin-right: 0.75rem;
+  }
+}
+
+// Grid de cálculos
+.calculations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+// Tarjetas de cálculo
+.calculation-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  }
+  
+  &.recent {
+    border: 2px solid #3f51b5;
+    box-shadow: 0 4px 20px rgba(63, 81, 181, 0.2);
+  }
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.card-title h3 {
+  color: #333;
+  margin: 0 0 0.5rem 0;
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.calculation-date {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.delete-button {
+  color: #f44336;
+  
+  &:hover {
+    background: rgba(244, 67, 54, 0.1);
+  }
+}
+
+.card-content {
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  position: relative;
+}
+
+// Estadísticas del cálculo
+.calculation-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  
+  &.highlight {
+    background: rgba(63, 81, 181, 0.1);
+    border-color: rgba(63, 81, 181, 0.2);
+  }
+}
+
+.stat-label {
+  color: #666;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+  
+  .highlight & {
+    color: #3f51b5;
+  }
+}
+
+// Badge de cálculo reciente
+.recent-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  background: #3f51b5;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .app-title {
+    font-size: 2rem;
+  }
+  
+  .app-subtitle {
+    font-size: 1rem;
+  }
+  
+  .history-content {
+    padding: 1rem;
+  }
+  
+  .section-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .calculations-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .calculation-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .empty-content {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: 1.5rem 0;
+  }
+  
+  .header-content {
+    padding: 0 1rem;
+  }
+  
+  .app-title {
+    font-size: 1.75rem;
+  }
+  
+  .history-content {
+    padding: 0.75rem;
+  }
+  
+  .card-header,
+  .card-content {
+    padding: 1rem;
+  }
+} 

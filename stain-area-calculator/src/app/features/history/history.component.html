@@ -1,0 +1,168 @@
+<!-- HTML del componente historial -->
+<div class="history-fullscreen-container">
+  <!-- Header de la aplicación -->
+  <div class="app-header">
+    <div class="header-content">
+      <h1 class="app-title">
+        <mat-icon class="header-icon">history</mat-icon>
+        Historial de Cálculos
+      </h1>
+      <p class="app-subtitle">
+        <mat-icon class="subtitle-icon">analytics</mat-icon>
+        Consulta todos los análisis de área de manchas realizados
+      </p>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="main-content">
+    @if (isLoading()) {
+      <div class="loading-overlay">
+        <div class="loading-content">
+          <mat-spinner diameter="60"></mat-spinner>
+          <h3>Cargando historial...</h3>
+          <p>Por favor espera mientras cargamos tus cálculos</p>
+        </div>
+      </div>
+    } @else {
+      <div class="history-content">
+        <!-- Estado vacío -->
+        @if (calculations().length === 0) {
+          <div class="empty-state">
+            <div class="empty-content">
+              <mat-icon class="empty-icon">inbox</mat-icon>
+              <h2>No hay cálculos guardados</h2>
+              <p>Aún no has realizado ningún cálculo de área de manchas.</p>
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="navigateToCalculator()"
+                class="new-calculation-button">
+                <mat-icon>add</mat-icon>
+                Ir a Calculadora
+              </button>
+            </div>
+          </div>
+        } @else {
+          <!-- Lista de cálculos -->
+          <div class="calculations-section">
+            <!-- Header de la sección -->
+            <div class="section-header">
+              <div class="header-info">
+                <h2>
+                  <mat-icon class="section-icon">assessment</mat-icon>
+                  Total de cálculos: {{ calculations().length }}
+                </h2>
+                <p>Gestiona y consulta todos tus análisis realizados</p>
+              </div>
+              <div class="header-actions">
+                <button
+                  mat-raised-button
+                  color="warn"
+                  (click)="clearHistory()"
+                  class="clear-history-button">
+                  <mat-icon>clear_all</mat-icon>
+                  Limpiar Todo
+                </button>
+                <button
+                  mat-raised-button
+                  color="primary"
+                  (click)="navigateToCalculator()"
+                  class="new-calculation-button">
+                  <mat-icon>add</mat-icon>
+                  Nuevo Cálculo
+                </button>
+              </div>
+            </div>
+
+            <!-- Mensajes de estado -->
+            @if (historyError) {
+              <div class="error-message">
+                <mat-icon>error</mat-icon>
+                <span>{{ historyError }}</span>
+              </div>
+            }
+
+            <!-- Grid de cálculos -->
+            <div class="calculations-grid">
+              @for (calculation of calculations(); track calculation.id) {
+                <mat-card
+                  class="calculation-card"
+                  [class.recent]="isRecentCalculation(calculation)">
+
+                  <!-- Header de la tarjeta -->
+                  <div class="card-header">
+                    <div class="card-title">
+                      <h3>
+                        <mat-icon class="card-icon">calculate</mat-icon>
+                        Cálculo
+                      </h3>
+                      <span class="calculation-date">
+                        <mat-icon class="date-icon">schedule</mat-icon>
+                        {{ formatDate(calculation.timestamp) }}
+                      </span>
+                    </div>
+                    <button
+                      mat-icon-button
+                      color="warn"
+                      (click)="deleteCalculation(calculation.id)"
+                      matTooltip="Eliminar cálculo"
+                      class="delete-button">
+                      <mat-icon>delete_forever</mat-icon>
+                    </button>
+                  </div>
+
+                  <!-- Contenido de la tarjeta -->
+                  <div class="card-content">
+                    <!-- Estadísticas del cálculo -->
+                    <div class="calculation-stats">
+                      <div class="stat-item">
+                        <mat-icon class="stat-icon">straighten</mat-icon>
+                        <div class="stat-info">
+                          <span class="stat-label">Área</span>
+                          <span class="stat-value">{{ calculation.stainArea | formatNumber }} px²</span>
+                        </div>
+                      </div>
+
+                      <div class="stat-item">
+                        <mat-icon class="stat-icon">scatter_plot</mat-icon>
+                        <div class="stat-info">
+                          <span class="stat-label">Puntos</span>
+                          <span class="stat-value">{{ calculation.numPoints }}</span>
+                        </div>
+                      </div>
+
+                      <div class="stat-item">
+                        <mat-icon class="stat-icon">my_location</mat-icon>
+                        <div class="stat-info">
+                          <span class="stat-label">En mancha</span>
+                          <span class="stat-value">{{ calculation.pointsInStain }}</span>
+                        </div>
+                      </div>
+
+                      <div class="stat-item highlight">
+                        <mat-icon class="stat-icon">percent</mat-icon>
+                        <div class="stat-info">
+                          <span class="stat-label">Porcentaje</span>
+                          <span class="stat-value">{{ (calculation.pointsInStain / calculation.numPoints * 100) | formatNumber }}%</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Indicador de cálculo reciente -->
+                    @if (isRecentCalculation(calculation)) {
+                      <div class="recent-indicator">
+                        <mat-icon class="recent-icon">new_releases</mat-icon>
+                        <span>Cálculo reciente</span>
+                      </div>
+                    }
+                  </div>
+                </mat-card>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,188 @@
+<!-- HTML del componente calculadora -->
+<div class="calculator-fullscreen-container">
+  <!-- Header de la aplicación -->
+  <div class="app-header">
+    <div class="header-content">
+      <h1 class="app-title">
+        <mat-icon class="header-icon">calculate</mat-icon>
+        Calculadora de Área de Manchas
+      </h1>
+      <p class="app-subtitle">
+        <mat-icon class="subtitle-icon">science</mat-icon>
+        Método Monte Carlo para análisis de imágenes
+      </p>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="main-content">
+    <!-- Indicador de carga -->
+    @if (isCalculating()) {
+      <div class="loading-overlay">
+        <div class="loading-content">
+          <mat-spinner diameter="60"></mat-spinner>
+          <h3>Procesando imagen...</h3>
+          <p>Por favor espera mientras calculamos el área</p>
+        </div>
+      </div>
+    }
+
+    <!-- Contenido principal cuando no está calculando -->
+    @if (!isCalculating()) {
+      <div class="calculator-content">
+        <!-- Paso 1: Cargar Imagen -->
+        <div class="step-card" [class.active]="!isImageLoaded()" [class.completed]="isImageLoaded()">
+          <div class="step-header">
+            <div class="step-number">1</div>
+            <div class="step-info">
+              <h2>
+                <mat-icon class="step-icon">image</mat-icon>
+                Cargar Imagen
+              </h2>
+              <p>Selecciona una imagen para analizar</p>
+            </div>
+            <div class="step-status">
+              @if (!isImageLoaded()) {
+                <mat-icon class="pending-icon">pending</mat-icon>
+              }
+              @if (isImageLoaded()) {
+                <mat-icon class="completed-icon">check_circle</mat-icon>
+              }
+            </div>
+          </div>
+
+          <div class="step-content">
+            <app-file-upload (fileSelected)="onFileSelected($event)"></app-file-upload>
+            <!-- Vista previa de la imagen -->
+            @if (isImageLoaded()) {
+              <div class="image-preview">
+                <img [src]="imageUrl()" alt="Vista previa de la imagen" class="preview-image">
+                <div class="image-status">
+                  <mat-icon class="status-icon">check_circle</mat-icon>
+                  <span>Imagen cargada correctamente</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Paso 2: Configurar Puntos -->
+        <div class="step-card" [class.active]="isImageLoaded()" [class.completed]="isImageLoaded()">
+          <div class="step-header">
+            <div class="step-number">2</div>
+            <div class="step-info">
+              <h2>
+                <mat-icon class="step-icon">tune</mat-icon>
+                Configurar Puntos
+              </h2>
+              <p>Ajusta la precisión del cálculo</p>
+            </div>
+            <div class="step-status">
+              @if (isImageLoaded()) {
+                <mat-icon class="completed-icon">check_circle</mat-icon>
+              }
+            </div>
+          </div>
+          @if (isImageLoaded()) {
+            <div class="step-content">
+              <app-points-slider
+                [value]="numPoints()"
+                (valueChanged)="onPointsChanged($event)">
+              </app-points-slider>
+              <div class="points-info">
+                <mat-icon class="info-icon">info</mat-icon>
+                <span>Más puntos = Mayor precisión, pero más tiempo de cálculo</span>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Paso 3: Calcular Área -->
+        <div class="step-card" [class.active]="isImageLoaded() && !currentCalculation()" [class.completed]="currentCalculation()">
+          <div class="step-header">
+            <div class="step-number">3</div>
+            <div class="step-info">
+              <h2>
+                <mat-icon class="step-icon">functions</mat-icon>
+                Calcular Área
+              </h2>
+              <p>Ejecuta el análisis Monte Carlo</p>
+            </div>
+            <div class="step-status">
+              @if (currentCalculation()) {
+                <mat-icon class="completed-icon">check_circle</mat-icon>
+              }
+            </div>
+          </div>
+          @if (isImageLoaded()) {
+            <div class="step-content">
+              <button
+                mat-raised-button
+                color="primary"
+                (click)="calculateArea()"
+                [disabled]="isCalculating() || !isImageLoaded()"
+                class="calculate-button">
+                @if (!isCalculating()) {
+                  <mat-icon>play_arrow</mat-icon>
+                }
+                @if (isCalculating()) {
+                  <mat-spinner diameter="20"></mat-spinner>
+                }
+                {{ isCalculating() ? 'Calculando...' : 'Calcular Área' }}
+              </button>
+              <!-- Mensajes de estado -->
+              @if (calculationError) {
+                <div class="error-message">
+                  <mat-icon>error</mat-icon>
+                  <span>{{ calculationError }}</span>
+                </div>
+              }
+              @if (calculationSuccess) {
+                <div class="success-message">
+                  <mat-icon>check_circle</mat-icon>
+                  <span>{{ calculationSuccess }}</span>
+                </div>
+              }
+              <!-- Resultado del cálculo -->
+              @if (currentCalculation()) {
+                <div class="calculation-result">
+                  <h3>
+                    <mat-icon class="result-icon">analytics</mat-icon>
+                    Resultado del Cálculo
+                  </h3>
+                  <div class="result-details">
+                    <div class="result-item">
+                      <mat-icon class="detail-icon">straighten</mat-icon>
+                      <span class="detail-label">Área de la mancha:</span>
+                      <span class="detail-value">{{ (currentCalculation()?.stainArea || 0) | formatNumber }} píxeles²</span>
+                    </div>
+                    <div class="result-item">
+                      <mat-icon class="detail-icon">scatter_plot</mat-icon>
+                      <span class="detail-label">Puntos utilizados:</span>
+                      <span class="detail-value">{{ currentCalculation()?.numPoints || 0 }}</span>
+                    </div>
+                    <div class="result-item">
+                      <mat-icon class="detail-icon">my_location</mat-icon>
+                      <span class="detail-label">Puntos en mancha:</span>
+                      <span class="detail-value">{{ currentCalculation()?.pointsInStain || 0 }}</span>
+                    </div>
+                  </div>
+                  <div class="result-actions">
+                    <button
+                      mat-raised-button
+                      color="accent"
+                      (click)="navigateToHistory()"
+                      class="view-history-button">
+                      <mat-icon>history</mat-icon>
+                      Ver Historial
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

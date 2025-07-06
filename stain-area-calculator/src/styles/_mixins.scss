@@ -1,0 +1,55 @@
+@use 'variables' as *;
+
+// Flex helpers
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Gradientes
+@mixin gradient-primary {
+  background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+}
+
+@mixin gradient-success {
+  background: linear-gradient(135deg, $success-color 0%, darken($success-color, 10%) 100%);
+}
+
+@mixin gradient-accent {
+  background: linear-gradient(135deg, $accent-color 0%, darken($accent-color, 10%) 100%);
+}
+
+// Card
+@mixin card-style {
+  background: $bg-primary;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+  border: 1px solid $border-light;
+}
+
+// Botón hover
+@mixin button-hover {
+  transform: translateY(-2px);
+  box-shadow: $shadow-lg;
+  transition: all $transition-normal;
+}
+
+// Responsive
+@mixin responsive($breakpoint) {
+  @if $breakpoint == sm {
+    @media (max-width: $breakpoint-sm) { @content; }
+  } @else if $breakpoint == md {
+    @media (max-width: $breakpoint-md) { @content; }
+  } @else if $breakpoint == lg {
+    @media (max-width: $breakpoint-lg) { @content; }
+  } @else if $breakpoint == xl {
+    @media (max-width: $breakpoint-xl) { @content; }
+  }
+} 

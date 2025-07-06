@@ -1,0 +1,158 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+/* Estilos del componente de subida de archivos */ 
+
+.file-upload-container {
+  @include flex-center;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.upload-area {
+  @include flex-center;
+  flex-direction: column;
+  width: 100%;
+  min-height: 200px;
+  padding: $spacing-xl;
+  border: 2px dashed $border-medium;
+  border-radius: $border-radius-lg;
+  background: $bg-primary;
+  cursor: pointer;
+  transition: all $transition-normal;
+  
+  &:hover {
+    border-color: $primary-color;
+    background: rgba($primary-color, 0.05);
+  }
+  
+  &.drag-over {
+    border-color: $primary-color;
+    background: rgba($primary-color, 0.1);
+    transform: scale(1.02);
+  }
+  
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    
+    &:hover {
+      border-color: $border-medium;
+      background: $bg-primary;
+      transform: none;
+    }
+  }
+}
+
+.upload-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: $text-muted;
+  margin-bottom: $spacing-md;
+}
+
+.upload-text {
+  text-align: center;
+  
+  h3 {
+    color: $text-primary;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 $spacing-sm 0;
+  }
+  
+  p {
+    color: $text-secondary;
+    font-size: 14px;
+    margin: 0;
+  }
+}
+
+.file-input {
+  display: none;
+}
+
+.file-info {
+  @include flex-center;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+  padding: $spacing-sm $spacing-md;
+  background: $bg-secondary;
+  border-radius: $border-radius-md;
+  border-left: 3px solid $success-color;
+  
+  .file-name {
+    color: $text-primary;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  
+  .file-size {
+    color: $text-secondary;
+    font-size: 12px;
+  }
+}
+
+.error-message {
+  @include flex-center;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+  padding: $spacing-sm $spacing-md;
+  background: rgba($error-color, 0.1);
+  border-radius: $border-radius-md;
+  border-left: 3px solid $error-color;
+  
+  mat-icon {
+    color: $error-color;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+  
+  span {
+    color: $error-color;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.loading-spinner {
+  @include flex-center;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+  
+  span {
+    color: $text-secondary;
+    font-size: 14px;
+  }
+}
+
+// Responsive design
+@include responsive(md) {
+  .upload-area {
+    min-height: 150px;
+    padding: $spacing-lg;
+  }
+  
+  .upload-icon {
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+  }
+  
+  .upload-text h3 {
+    font-size: 16px;
+  }
+}
+
+.image-preview {
+  display: block;
+  margin: 1rem auto 0 auto;
+  max-width: 100%;
+  max-height: 180px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+  border: 2px solid #e3e3e3;
+  background: #fff;
+} 

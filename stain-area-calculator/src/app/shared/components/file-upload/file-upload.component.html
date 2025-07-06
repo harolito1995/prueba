@@ -1,0 +1,79 @@
+<!-- HTML del componente de subida de archivos -->
+<div class="file-upload-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Subir Imagen</mat-card-title>
+      <mat-card-subtitle>Selecciona una imagen para calcular el área de la mancha</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div
+        class="upload-area"
+        (click)="fileInput.click()"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+        [class.has-file]="uploadedFile()"
+        [class.drag-over]="isDragOver()"
+      >
+        <div class="upload-content">
+          <mat-icon class="upload-icon">cloud_upload</mat-icon>
+
+          @if (uploadedFile()) {
+            <div class="file-info">
+              <p class="file-name">{{ uploadedFile()!.name }}</p>
+              <p class="file-size">{{ formatFileSize(uploadedFile()!.size || 0) }}</p>
+              @if (uploadedFile()!.type && uploadedFile()!.type.startsWith('image/')) {
+                <img
+                  [src]="uploadedFile()! | filePreview"
+                  alt="Vista previa"
+                  class="image-preview"
+                />
+              }
+            </div>
+            @if (uploadError) {
+              <div class="error-message">
+                <mat-icon>error</mat-icon>
+                <span>{{ uploadError }}</span>
+              </div>
+            }
+            @if (uploadSuccess) {
+              <div class="success-message">
+                <mat-icon>check_circle</mat-icon>
+                <span>{{ uploadSuccess }}</span>
+              </div>
+            }
+          } @else {
+            <div class="upload-text">
+              <p>Haz clic para seleccionar una imagen</p>
+              <p class="upload-hint">o arrastra y suelta aquí</p>
+              @if (uploadError) {
+                <div class="error-message">
+                  <mat-icon>error</mat-icon>
+                  <span>{{ uploadError }}</span>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+        <input
+          #fileInput
+          type="file"
+          accept="image/*"
+          (change)="onFileSelect($event)"
+          style="display: none;"
+        />
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      @if (uploadedFile()) {
+        <button mat-button color="warn" (click)="clear()">
+          <mat-icon>clear</mat-icon>
+          Limpiar
+        </button>
+      }
+    </mat-card-actions>
+  </mat-card>
+</div>

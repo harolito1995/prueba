@@ -87,7 +87,7 @@ uvicorn main:app --reload
 ```bash
 cd stain-area-calculator/
 npm install
-npm start
+ng serve -o
 ```
 
 ## 📝 Notas Adicionales
